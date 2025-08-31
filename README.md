@@ -7,6 +7,30 @@ This is a simple URL shortener service built with Flask and SQLite. It provides 
 - Docker
 - Docker Compose
 
+## Docker Configuration
+
+### Dockerfile Explanation
+
+The `Dockerfile` defines the container image for the URL shortener service:
+
+- `FROM python:3.11-slim`: Uses a lightweight Python 3.11 base image
+- `WORKDIR /app`: Sets the working directory inside the container to `/app`
+- `RUN apt-get update`: Updates the package list (required for some dependencies)
+- `COPY . .`: Copies all files from the host to the container's working directory
+- `RUN pip install --no-cache-dir -r requirements.txt`: Installs Python dependencies without caching to reduce image size
+- `EXPOSE 5000`: Exposes port 5000 for the Flask application
+- `CMD ["python3", "app.py"]`: Runs the Flask application when the container starts
+
+### Docker Compose Configuration
+
+The `docker-compose.yml` file orchestrates the service:
+
+- `version: "3.8"`: Specifies the Docker Compose file format version
+- `services`: Defines the services to run
+  - `url-shortener`: The name of the service
+    - `build: .`: Builds the Docker image from the current directory (using the Dockerfile)
+    - `ports: - "5000:5000"`: Maps port 5000 on the host to port 5000 in the container
+
 ## Running with Docker Compose
 
 1. Build and start the service:
